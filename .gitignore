@@ -1,0 +1,17 @@
+#IntelliJ files
+.idea/
+*.iml
+*.class
+
+.target/
+
+#Package Files
+*.jar
+*.ear
+*.war
+*.rar
+*.zip
+*.tag.gz
+
+*.png
+*.bat

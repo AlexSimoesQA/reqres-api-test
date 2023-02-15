@@ -4,6 +4,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.example.dto.RegisterAndLoginDTO;
 import org.example.dto.UserDTO;
+import org.hamcrest.Matchers;
 
 import static io.restassured.RestAssured.*;
 import static org.apache.http.HttpStatus.*;
@@ -27,27 +28,16 @@ public class ReqresService {
                         .response();
     }
 
-    public Response singleUser() {
+    public Response singleUser(String id, Integer statusCode) {
         return
                 given()
                     .spec(requestSpecification)
                 .when()
-                    .get("users/2")
+                    .get("users/"+id)
                 .then()
-                    .statusCode(SC_OK)
+                    .statusCode(statusCode)
                     .extract()
                     .response();
-    }
-
-    public void singleUserNotFound() {
-        given()
-            .spec(requestSpecification)
-        .when()
-            .get("users/23")
-        .then()
-            .statusCode(SC_NOT_FOUND)
-            .extract()
-            .response();
     }
 
     public Response listResource() {
@@ -62,27 +52,16 @@ public class ReqresService {
                         .response();
     }
 
-    public Response singleResource() {
+    public Response singleResource(String id, Integer statusCode) {
         return
                 given()
                         .spec(requestSpecification)
                         .when()
-                        .get("unknown/2")
+                        .get("unknown/"+id)
                         .then()
-                        .statusCode(SC_OK)
+                        .statusCode(statusCode)
                         .extract()
                         .response();
-    }
-
-    public void singleResourceNotFound() {
-        given()
-                .spec(requestSpecification)
-                .when()
-                .get("unknown/23")
-                .then()
-                .statusCode(SC_NOT_FOUND)
-                .extract()
-                .response();
     }
 
     public Response createUser(UserDTO userDTO) {
@@ -135,12 +114,12 @@ public class ReqresService {
                 .response();
     }
 
-    public Response register(RegisterAndLoginDTO registerDTO, Integer statusCode) {
+    public Response register(Object object, Integer statusCode) {
         return
                 given()
                         .spec(requestSpecification)
                         .when()
-                        .body(registerDTO)
+                        .body(object)
                         .post("register")
                         .then()
                         .statusCode(statusCode)
@@ -161,18 +140,16 @@ public class ReqresService {
                         .response();
     }
 
-    public Response delayedResponse(RegisterAndLoginDTO loginDTO, Integer statusCode) {
+    public Response delayedResponse() {
         return
                 given()
                         .spec(requestSpecification)
                         .when()
-                        .body(loginDTO)
                         .get("users?delay=3")
                         .then()
                         .statusCode(SC_OK)
                         .extract()
                         .response();
     }
-
 
 }

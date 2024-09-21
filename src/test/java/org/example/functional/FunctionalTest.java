@@ -1,4 +1,4 @@
-package functional;
+package org.example.functional;
 
 import io.restassured.response.Response;
 import org.example.dataProvider.ReqresDataProvider;
@@ -8,7 +8,7 @@ import org.example.base.BaseTest;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
-import static assertions.ReqresAssertions.*;
+import static org.example.assertions.ReqresAssertions.*;
 
 public class FunctionalTest extends BaseTest {
 

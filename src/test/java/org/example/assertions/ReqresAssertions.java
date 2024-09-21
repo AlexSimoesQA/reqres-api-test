@@ -1,4 +1,4 @@
-package assertions;
+package org.example.assertions;
 
 import io.restassured.response.Response;
 import org.example.dto.UserDTO;

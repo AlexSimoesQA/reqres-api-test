@@ -1,25 +1,26 @@
 package functional;
 
 import io.restassured.response.Response;
+import org.example.dataProvider.ReqresDataProvider;
 import org.example.dto.RegisterAndLoginDTO;
 import org.example.dto.UserDTO;
-import org.example.utils.BaseTest;
+import org.example.base.BaseTest;
 import org.testng.annotations.Test;
 
 import static org.apache.http.HttpStatus.*;
-import static org.example.dao.ReqresDAO.*;
+import static assertions.ReqresAssertions.*;
 
 public class FunctionalTest extends BaseTest {
 
     @Test
     public void listUsersTest() {
         Response response = reqresService.listUsers();
-        validateListUsers(response);
+        assertListUsers(response);
     }
     @Test
     public void singleUserTest() {
         Response response = reqresService.singleUser("2", SC_OK);
-        validateSingleUser(response);
+        assertSingleUser(response);
     }
 
     @Test
@@ -30,13 +31,13 @@ public class FunctionalTest extends BaseTest {
     @Test
     public void listResourceTest() {
         Response response = reqresService.listResource();
-        validateListResource(response);
+        assertListResource(response);
     }
 
-    //ToDo: Realizar o restante das validações
     @Test
     public void singleResourceTest() {
         Response response = reqresService.singleResource("2", SC_OK);
+        assertSingleResource(response);
     }
 
     @Test
@@ -44,19 +45,22 @@ public class FunctionalTest extends BaseTest {
         reqresService.singleResource("23", SC_NOT_FOUND);
     }
 
-    @Test
+    @Test(dataProvider = "creatingUser", dataProviderClass = ReqresDataProvider.class)
     public void createUserTest(UserDTO userDTO) {
         Response response = reqresService.createUser(userDTO);
+        assertCreateUser(response, userDTO);
     }
 
-    @Test
+    @Test(dataProvider = "updateUser", dataProviderClass = ReqresDataProvider.class)
     public void updatePutTest(UserDTO userDTO) {
         Response response = reqresService.updateUserPut(userDTO);
+        assertUpdate(response, userDTO);
     }
 
-    @Test
+    @Test(dataProvider = "updateUser", dataProviderClass = ReqresDataProvider.class)
     public void updatePatchTest(UserDTO userDTO) {
         Response response = reqresService.updateUserPatch(userDTO);
+        assertUpdate(response, userDTO);
     }
 
     @Test
@@ -64,29 +68,34 @@ public class FunctionalTest extends BaseTest {
         reqresService.deleteUser();
     }
 
-    @Test
-    public void registerTest(RegisterAndLoginDTO registerDTO) {
+    @Test(dataProvider = "registerSuccessful", dataProviderClass = ReqresDataProvider.class)
+    public void registerSuccessfulTest(RegisterAndLoginDTO registerDTO) {
         Response response = reqresService.register(registerDTO, SC_OK);
+        assertRegister(response);
     }
 
-    @Test
+    @Test(dataProvider = "registerUnsuccessful", dataProviderClass = ReqresDataProvider.class)
     public void registerUnsuccessfulTest(RegisterAndLoginDTO registerDTO) {
         Response response = reqresService.register(registerDTO, SC_BAD_REQUEST);
+        assertMessageError(response);
     }
 
-    @Test
-    public void loginTest(RegisterAndLoginDTO loginDTO) {
+    @Test(dataProvider = "loginSuccessful", dataProviderClass = ReqresDataProvider.class)
+    public void loginSuccessfulTest(RegisterAndLoginDTO loginDTO) {
         Response response = reqresService.login(loginDTO, SC_OK);
+        assertLogin(response);
     }
 
-    @Test
+    @Test(dataProvider = "loginUnsuccessful", dataProviderClass = ReqresDataProvider.class)
     public void loginUnsuccessfulTest(RegisterAndLoginDTO loginDTO) {
         Response response = reqresService.login(loginDTO, SC_BAD_REQUEST);
+        assertMessageError(response);
     }
 
     @Test
     public void delayedResponseTest() {
         Response response = reqresService.delayedResponse();
+        assertDelayedResponse(response);
     }
 
 }

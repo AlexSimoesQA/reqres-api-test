@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.base;
 
 import io.restassured.RestAssured;
 import org.example.service.ReqresService;

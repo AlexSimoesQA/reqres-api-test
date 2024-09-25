@@ -7,7 +7,7 @@ To run the tests locally, navigate to the following file:
 
 `src/test/java/functional/FunctionalTest.java`
 
-Then, execute the `FunctionalTest.java` class. You can do this either through your IDE by right-clicking on the class and selecting "Run", or by using a command line interface if configured for Java execution.
+Then, execute the `FunctionalTest.java` class. You can do this either through your IDE by right-clicking on the class and selecting "Run".
 
 ## Technologies used
 
